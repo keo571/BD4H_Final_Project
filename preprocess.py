@@ -67,7 +67,7 @@ def preprocess(ast_folder_path, txt_folder_path, des_path, id):
             with open(os.path.join(txt_folder_path, filename), 'r', encoding='utf-8') as fr:
                 txt = fr.readlines()
             for line in ast:
-                meta = convert(line, txt, ID)
+                meta = convert(line, txt, id)
                 json.dump(meta, fw, ensure_ascii=False)
                 fw.write('\n')
                 id += 1
@@ -93,7 +93,7 @@ def preprocess_negex(src_path, des_path, starting_id):
             sentence = sentence.replace(concept, ' <c> '+concept+' </c> ')
             sentence = tokenize(sentence)
             meta = dict(
-                id=index + starting_id + 1,
+                id=index + starting_id,
                 concept=concept,
                 sentence=sentence,
                 assertion=row['assertion']

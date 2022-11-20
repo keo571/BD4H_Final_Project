@@ -68,7 +68,7 @@ class Config(object):
                             default=0,
                             help='num of gpu device, if -1, select cpu')
         parser.add_argument('--epoch', type=int,
-                            default=1,
+                            default=5,
                             help='max epoches during training')
 
         # hyper parameters

@@ -61,16 +61,19 @@ def train(model, criterion, loaders, config, str_labels):
                 recall_dict[label].append(scores['recall'])
                 f1_dict[label].append(scores['f1-score'])
 
+        f1_lst = []
         # result of each epoch
         for label in str_labels:
             precision = np.mean(precision_dict[label])
             recall = np.mean(recall_dict[label])
             f1 = np.mean(f1_dict[label])
+            f1_lst.append(f1)
             print('Label [%s]  precision: %.3f | recall: %.3f | micro f1: %.4f'% (label, precision, recall, f1))
 
-        present_f1 = np.mean(f1_dict['present'])
-        if present_f1 > max_f1:
-            max_f1 = present_f1
+        # use macro f1 to decide save model or not
+        macro_f1 = sum(f1_lst)/len(str_labels)
+        if macro_f1 > max_f1:
+            max_f1 = macro_f1
             torch.save(model.state_dict(), os.path.join(
                 config.model_dir, 'model.pkl'))
             print('>>> save models!')
